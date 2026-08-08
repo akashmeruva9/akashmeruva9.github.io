@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# akash.meruva — portfolio
 
-## Getting Started
+Single-page portfolio. Next.js 16 (App Router) + Tailwind v4, statically exported for GitHub Pages.
 
-First, run the development server:
+## Editing content
+
+**`src/content/site.ts` is the only file you need to touch.** Name, hero copy,
+projects, experience, achievements, skills and education all live there — the
+page renders whatever that file exports.
+
+- Hero copy: `hero.lines` (headline), `hero.accent` (the coral last line),
+  `hero.body` (fragments; `accent: true` colours a phrase).
+- Project cards: `projects[]`. `preview` is the mono text inside the fake
+  browser window — the last line is highlighted automatically.
+- Résumé: replace `public/Akash_Meruva_Resume.pdf` (there's a second copy at the
+  repo root you can delete; only the one in `public/` is served).
+
+## Local development
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run dev     # http://localhost:3000
+npm run build   # type-checks and writes the static site to out/
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Deploying to GitHub Pages
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Create a repo and push:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+   ```bash
+   git remote add origin git@github.com:akashmeruva9/<repo>.git
+   git add -A && git commit -m "Portfolio site"
+   git push -u origin main
+   ```
 
-## Learn More
+   Naming it `akashmeruva9.github.io` serves the site at the root domain;
+   any other name serves it at `/<repo>` (handled automatically, see below).
 
-To learn more about Next.js, take a look at the following resources:
+2. In the repo: **Settings → Pages → Build and deployment → Source →
+   GitHub Actions**.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. Push to `main`. `.github/workflows/deploy.yml` builds and publishes on every
+   push. It sets `NEXT_PUBLIC_BASE_PATH` to `/<repo>` for project sites and
+   leaves it empty for `<user>.github.io`, so asset and résumé links resolve
+   either way.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Custom domain
 
-## Deploy on Vercel
+Add a `public/CNAME` file containing the domain, point the DNS at GitHub, and
+set the domain under Settings → Pages. Then keep `NEXT_PUBLIC_BASE_PATH` empty —
+override the workflow's `Resolve base path` step to always output an empty path.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## The 3D hero
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`src/components/computer-scene.tsx` — a react-three-fiber scene, all procedural
+geometry (no model file to load). The monitor's screen is a 2D canvas drawn each
+frame and used as an emissive texture, so the terminal output actually types
+itself out; edit the `LINES` array to change what it prints. The rig tilts
+toward the pointer and floats gently.
+
+It's loaded via `next/dynamic` with `ssr: false` from
+`src/components/hero-visual.tsx`, which first checks for WebGL and falls back to
+a flat card if the browser can't render it. three.js (~600 KB) therefore stays
+out of the initial bundle.
+
+## Notes
+
+- Dark-only by design; the palette lives in `src/app/globals.css` as CSS
+  variables (`--bg`, `--ink`, `--accent`, …). Change `--accent` to re-theme.
+- Sections fade in on scroll via `src/components/reveal.tsx`. The styles are
+  scoped to `.js`, so without JavaScript everything renders visible.
+- `output: "export"` means no server: no API routes, no server actions, no
+  `next/image` optimisation.
