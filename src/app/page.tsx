@@ -1,432 +1,359 @@
-import { Eyebrow } from "@/components/eyebrow";
-import { HeroVisual } from "@/components/hero-visual";
-import { Nav } from "@/components/nav";
-import { Reveal } from "@/components/reveal";
-import {
-  achievements,
-  education,
-  experience,
-  hero,
-  projects,
-  services,
-  site,
-  skillGroups,
-  type Project,
-} from "@/content/site";
+import { resume } from "@/content/site";
 
-export default function Home() {
+function FormattedText({ text }: { text: string }) {
+  const parts = text.split(/(\*\*.*?\*\*)/g);
   return (
     <>
-      <Nav />
-      <main id="top">
-        <Hero />
-        <Work />
-        <WhatIDo />
-        <Experience />
-        <About />
-        <Contact />
-      </main>
-      <Footer />
+      {parts.map((part, i) => {
+        if (part.startsWith("**") && part.endsWith("**")) {
+          return (
+            <strong key={i} className="text-white font-medium">
+              {part.slice(2, -2)}
+            </strong>
+          );
+        }
+        return part;
+      })}
     </>
   );
 }
 
-/* ── Hero ──────────────────────────────────────────────────── */
-
-function Hero() {
+export default function Home() {
   return (
-    <section className="relative overflow-hidden">
-      {/* Warm bloom behind the headline. */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -top-40 -left-32 h-[36rem] w-[36rem] rounded-full bg-accent/8 blur-[120px]"
-      />
-      <Shell className="relative grid items-center gap-8 pt-32 pb-20 sm:pt-40 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:gap-10 lg:pb-28">
-        <div>
-        <Reveal className="flex items-center gap-2.5">
-          <span className="status-dot h-2 w-2 rounded-full bg-accent" />
-          <span className="font-mono text-sm text-muted">{site.status}</span>
-        </Reveal>
-
-        <Reveal delay={80}>
-          <h1 className="mt-8 text-[2.75rem] leading-[1.04] font-semibold tracking-[-0.03em] sm:text-6xl xl:text-[4rem]">
-            {hero.lines.map((line) => (
-              <span key={line} className="block">
-                {line}
-              </span>
-            ))}
-            <span className="block text-accent">{hero.accent}</span>
-          </h1>
-        </Reveal>
-
-        <Reveal delay={160}>
-          <p className="mt-9 max-w-2xl text-lg leading-relaxed text-muted">
-            {hero.body.map((part, i) => (
-              <span key={i} className={part.accent ? "text-accent-soft" : ""}>
-                {part.text}
-              </span>
-            ))}
-          </p>
-        </Reveal>
-
-        <Reveal delay={240}>
-          <div className="mt-11 flex flex-wrap items-center gap-5">
-            <a
-              href="#work"
-              className="group inline-flex items-center gap-2 rounded-md bg-ink px-5 py-3 font-mono text-sm text-bg transition-opacity hover:opacity-85"
-            >
-              See the work
-              <span className="transition-transform group-hover:translate-x-0.5">
-                →
-              </span>
-            </a>
-            <a
-              href={site.resumeUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="font-mono text-sm text-muted transition-colors hover:text-accent"
-            >
-              Résumé ↗
-            </a>
-          </div>
-        </Reveal>
-        </div>
-
-        <HeroVisual />
-      </Shell>
-    </section>
-  );
-}
-
-/* ── Selected work ─────────────────────────────────────────── */
-
-function Work() {
-  return (
-    <Band id="work">
-      <Reveal>
-        <Eyebrow>Selected work</Eyebrow>
-        <div className="mt-6 flex flex-wrap items-end justify-between gap-4">
-          <h2 className="max-w-2xl text-3xl font-semibold tracking-[-0.02em] text-balance sm:text-5xl">
-            Systems people actually run on.
-          </h2>
-          <a
-            href={site.socials[0].href}
-            target="_blank"
-            rel="noreferrer"
-            className="font-mono text-sm text-muted transition-colors hover:text-accent"
-          >
-            All projects ↗
-          </a>
-        </div>
-      </Reveal>
-
-      <div className="mt-14 grid gap-6 md:grid-cols-2">
-        {projects.map((project, i) => (
-          <Reveal key={project.title} delay={(i % 2) * 90}>
-            <ProjectCard project={project} />
-          </Reveal>
-        ))}
-      </div>
-    </Band>
-  );
-}
-
-function ProjectCard({ project }: { project: Project }) {
-  return (
-    <article className="group h-full rounded-xl border border-line bg-card p-5 transition-colors duration-300 hover:border-accent/40">
-      {/* Browser-chrome preview — mono, not a screenshot. */}
-      <div className="overflow-hidden rounded-lg border border-line bg-raised">
-        <div className="flex items-center gap-2 border-b border-line px-3 py-2.5">
-          <span className="flex gap-1.5" aria-hidden="true">
-            <i className="h-2 w-2 rounded-full bg-dim/70" />
-            <i className="h-2 w-2 rounded-full bg-dim/70" />
-            <i className="h-2 w-2 rounded-full bg-dim/70" />
-          </span>
-          <span className="truncate font-mono text-xs text-dim">
-            {project.window}
-          </span>
-        </div>
-        <pre className="overflow-x-auto px-4 py-5 font-mono text-xs leading-6 text-muted">
-          {project.preview.map((line, i) => (
-            <span
-              key={i}
-              className={`block ${i === project.preview.length - 1 ? "mt-1 text-accent" : ""}`}
-            >
-              {line}
-            </span>
-          ))}
-        </pre>
-      </div>
-
-      <div className="mt-5 flex items-baseline justify-between gap-4">
-        <h3 className="text-lg font-semibold tracking-[-0.01em]">
-          {project.title}
-        </h3>
-        <span className="font-mono text-xs text-dim">{project.year}</span>
-      </div>
-
-      <p className="mt-1.5 text-[15px] text-muted">{project.blurb}</p>
-      <p className="mt-3 text-sm leading-relaxed text-dim">{project.detail}</p>
-
-      <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
-        <span className="font-mono text-xs text-dim">
-          {project.stack.join(" · ")}
-        </span>
-        {project.repo && (
-          <a
-            href={project.repo}
-            target="_blank"
-            rel="noreferrer"
-            className="font-mono text-xs text-muted transition-colors hover:text-accent"
-          >
-            Source ↗
-          </a>
-        )}
-      </div>
-
-      {project.status && (
-        <p className="mt-4 flex items-center gap-2 font-mono text-xs text-accent">
-          <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-          {project.status}
-        </p>
-      )}
-    </article>
-  );
-}
-
-/* ── What I do ─────────────────────────────────────────────── */
-
-function WhatIDo() {
-  return (
-    <Band tone="raised">
-      <Reveal>
-        <Eyebrow>What I do</Eyebrow>
-      </Reveal>
-      <div className="mt-10 border-t border-line">
-        {services.map((service, i) => (
-          <Reveal key={service.title} delay={i * 60}>
-            <div className="grid grid-cols-1 gap-3 border-b border-line py-7 sm:grid-cols-[auto_16rem_1fr] sm:items-baseline sm:gap-8">
-              <span className="font-mono text-xs text-accent">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <h3 className="text-lg font-medium tracking-[-0.01em]">
-                {service.title}
-              </h3>
-              <p className="text-[15px] leading-relaxed text-muted">
-                {service.detail}
+    <div className="min-h-screen bg-[#0a0a0c] text-[#d4d4d8] antialiased selection:bg-neutral-800 selection:text-white">
+      <main className="mx-auto max-w-3xl px-6 py-14 sm:py-20 space-y-12">
+        
+        {/* ── Header / Profile ── */}
+        <header className="space-y-4 border-b border-neutral-800 pb-10">
+          <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-3">
+            <div>
+              <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white font-sans">
+                {resume.name}
+              </h1>
+              <p className="mt-1 text-base text-neutral-400">
+                {resume.role} —{" "}
+                <span className="text-neutral-200 font-medium">
+                  {resume.company}
+                </span>
               </p>
             </div>
-          </Reveal>
-        ))}
-      </div>
-    </Band>
-  );
-}
 
-/* ── Experience ────────────────────────────────────────────── */
+            <a
+              href={resume.contact.resumePdf}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center self-start sm:self-auto gap-2 rounded-lg border border-neutral-700/80 bg-neutral-900/60 px-3.5 py-1.5 text-xs font-mono text-neutral-300 transition-colors hover:border-neutral-500 hover:text-white hover:bg-neutral-800"
+            >
+              <DownloadIcon className="h-3.5 w-3.5 text-neutral-400" />
+              Download Resume
+            </a>
+          </div>
 
-function Experience() {
-  return (
-    <Band id="experience">
-      <Reveal>
-        <Eyebrow>Currently</Eyebrow>
-        <h2 className="mt-6 text-3xl font-semibold tracking-[-0.02em] text-balance sm:text-5xl">
-          {site.role} at {site.company}.
-        </h2>
-        <p className="mt-4 max-w-2xl text-muted">
-          Building agentic systems for Storebox — Autodesk&apos;s desktop build
-          lifecycle and management platform.
-        </p>
-      </Reveal>
+          {/* Contact Bar matching resume header */}
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 pt-2 text-xs font-mono text-neutral-400">
+            <a
+              href={resume.contact.github.url}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1.5 transition-colors hover:text-white"
+            >
+              <GitHubIcon className="h-3.5 w-3.5 text-neutral-400" />
+              <span>/github {resume.contact.github.username}</span>
+            </a>
 
-      <div className="mt-16 border-t border-line">
-        {experience.map((job, i) => (
-          <Reveal key={`${job.company}-${job.period}`} delay={i * 60}>
-            <article className="grid gap-3 border-b border-line py-8 sm:grid-cols-[13rem_1fr] sm:gap-8">
-              <div>
-                <p className="font-mono text-xs text-muted">{job.period}</p>
-                <p className="mt-1 font-mono text-xs text-dim">{job.place}</p>
-              </div>
-              <div>
-                <h3 className="text-lg font-medium tracking-[-0.01em]">
-                  {job.title}{" "}
-                  <span className="text-accent">· {job.company}</span>
-                </h3>
-                <p className="mt-2 text-[15px] leading-relaxed text-muted">
-                  {job.summary}
+            <span className="text-neutral-700 select-none">|</span>
+
+            <a
+              href={resume.contact.linkedin.url}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1.5 transition-colors hover:text-white"
+            >
+              <LinkedInIcon className="h-3.5 w-3.5 text-neutral-400" />
+              <span>/linkedin {resume.contact.linkedin.username}</span>
+            </a>
+
+            <span className="text-neutral-700 select-none">|</span>
+
+            <a
+              href={`mailto:${resume.contact.email}`}
+              className="inline-flex items-center gap-1.5 transition-colors hover:text-white"
+            >
+              <MailIcon className="h-3.5 w-3.5 text-neutral-400" />
+              <span>{resume.contact.email}</span>
+            </a>
+
+            <span className="text-neutral-700 select-none">|</span>
+
+            <a
+              href={`tel:${resume.contact.phone.replace(/\s+/g, "")}`}
+              className="inline-flex items-center gap-1.5 transition-colors hover:text-white"
+            >
+              <PhoneIcon className="h-3.5 w-3.5 text-neutral-400" />
+              <span>{resume.contact.phone}</span>
+            </a>
+          </div>
+        </header>
+
+        {/* ── Work Experience ── */}
+        <section className="space-y-6">
+          <SectionHeading title="Work Experience" />
+
+          <div className="space-y-8">
+            {resume.experience.map((job, idx) => (
+              <article key={idx} className="space-y-2">
+                <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
+                  <h3 className="text-base font-medium text-white">
+                    {job.role} —{" "}
+                    <span className="text-neutral-300 font-normal">
+                      {job.company}
+                    </span>
+                  </h3>
+                  <span className="font-mono text-xs text-neutral-400 whitespace-nowrap">
+                    {job.period}
+                  </span>
+                </div>
+
+                <p className="text-xs text-neutral-500 font-mono">
+                  {job.location}
                 </p>
-              </div>
-            </article>
-          </Reveal>
-        ))}
-      </div>
-    </Band>
-  );
-}
 
-/* ── About: recognition + skills + education ───────────────── */
+                <ul className="mt-2.5 space-y-2 text-sm leading-relaxed text-neutral-300">
+                  {job.points.map((pt, pIdx) => (
+                    <li key={pIdx} className="flex items-start gap-2.5">
+                      <span className="text-neutral-500 mt-1 select-none leading-none">•</span>
+                      <span>
+                        <FormattedText text={pt} />
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+        </section>
 
-function About() {
-  return (
-    <Band id="about" tone="raised">
-      <Reveal>
-        <Eyebrow>About</Eyebrow>
-        <h2 className="mt-6 max-w-3xl text-3xl font-semibold tracking-[-0.02em] text-balance sm:text-4xl">
-          I like problems that only get interesting at scale.
-        </h2>
-      </Reveal>
+        {/* ── Projects ── */}
+        <section className="space-y-6">
+          <SectionHeading title="Projects" />
 
-      <div className="mt-14 grid gap-14 lg:grid-cols-2">
-        <Reveal>
-          <h3 className="font-mono text-xs tracking-[0.2em] text-dim uppercase">
-            Recognition
-          </h3>
-          <ul className="mt-6 space-y-4">
-            {achievements.map((item) => (
-              <li key={item.detail} className="flex gap-4">
-                <span className="w-24 shrink-0 font-mono text-xs text-accent">
-                  {item.label}
-                </span>
-                <span className="text-[15px] leading-relaxed text-muted">
-                  {item.detail}
+          <div className="space-y-8">
+            {resume.projects.map((proj, idx) => (
+              <article key={idx} className="space-y-2.5">
+                <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1.5">
+                  <h3 className="text-base font-medium text-white">
+                    {proj.title}
+                  </h3>
+
+                  <div className="flex items-center gap-2 text-xs font-mono">
+                    {proj.links.map((link, lIdx) => (
+                      <span key={lIdx} className="inline-flex items-center gap-2">
+                        {lIdx > 0 && <span className="text-neutral-700 select-none">|</span>}
+                        <a
+                          href={link.url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-neutral-400 underline decoration-neutral-700 underline-offset-4 transition-colors hover:text-white hover:decoration-neutral-400"
+                        >
+                          {link.label}
+                        </a>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <ul className="space-y-2 text-sm leading-relaxed text-neutral-300">
+                  {proj.points.map((pt, pIdx) => (
+                    <li key={pIdx} className="flex items-start gap-2.5">
+                      <span className="text-neutral-500 mt-1 select-none leading-none">•</span>
+                      <span>
+                        <FormattedText text={pt} />
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        {/* ── Achievements ── */}
+        <section className="space-y-4">
+          <SectionHeading title="Achievements" />
+
+          <ul className="space-y-2.5 text-sm leading-relaxed text-neutral-300">
+            {resume.achievements.map((item, idx) => (
+              <li key={idx} className="flex items-start gap-2.5">
+                <span className="text-neutral-500 mt-1 select-none leading-none">•</span>
+                <span>
+                  <FormattedText text={item.text} />{" "}
+                  {item.url && (
+                    <a
+                      href={item.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-1 font-mono text-xs text-neutral-400 underline decoration-neutral-700 underline-offset-2 transition-colors hover:text-white hover:decoration-neutral-400"
+                    >
+                      [link]
+                    </a>
+                  )}
                 </span>
               </li>
             ))}
           </ul>
-        </Reveal>
+        </section>
 
-        <Reveal delay={90}>
-          <h3 className="font-mono text-xs tracking-[0.2em] text-dim uppercase">
-            Toolkit
-          </h3>
-          <div className="mt-6 space-y-5">
-            {skillGroups.map((group) => (
-              <div key={group.label}>
-                <p className="font-mono text-xs text-dim">{group.label}</p>
-                <ul className="mt-2 flex flex-wrap gap-2">
-                  {group.items.map((item) => (
-                    <li
-                      key={item}
-                      className="rounded-md border border-line px-2.5 py-1 font-mono text-xs text-muted"
-                    >
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+        {/* ── Education ── */}
+        <section className="space-y-4">
+          <SectionHeading title="Education" />
+
+          <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 text-sm">
+            <div>
+              <p className="text-white font-medium">
+                {resume.education.degree}{" "}
+                <span className="text-neutral-400 font-normal">
+                  at {resume.education.institution}
+                </span>
+              </p>
+              <p className="text-xs font-mono text-neutral-400 mt-0.5">
+                {resume.education.grade}
+              </p>
+            </div>
+            <span className="font-mono text-xs text-neutral-400 whitespace-nowrap">
+              {resume.education.period}
+            </span>
+          </div>
+        </section>
+
+        {/* ── Skills ── */}
+        <section className="space-y-4">
+          <SectionHeading title="Skills" />
+
+          <div className="space-y-2.5 text-sm leading-relaxed">
+            {resume.skills.map((skillGroup, idx) => (
+              <div key={idx} className="flex flex-col sm:flex-row sm:gap-2">
+                <span className="font-mono text-xs text-neutral-400 font-medium sm:w-28 sm:shrink-0 pt-0.5">
+                  {skillGroup.category} :
+                </span>
+                <span className="text-neutral-200">
+                  {skillGroup.items.join(", ")}
+                </span>
               </div>
             ))}
           </div>
+        </section>
 
-          <div className="mt-9 border-t border-line pt-6">
-            <p className="font-mono text-xs text-dim">Education</p>
-            <p className="mt-2 text-[15px]">{education.degree}</p>
-            <p className="mt-1 text-sm text-muted">
-              {education.school} · {education.period} · {education.grade}
-            </p>
+        {/* ── Minimal Footer ── */}
+        <footer className="pt-8 border-t border-neutral-800 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-xs font-mono text-neutral-400">
+          <span>© {new Date().getFullYear()} {resume.name}</span>
+          <div className="flex items-center gap-4">
+            <a
+              href="https://github.com/akashmeruva9"
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-white transition-colors"
+            >
+              GitHub
+            </a>
+            <span className="text-neutral-700 select-none">·</span>
+            <a
+              href="https://www.linkedin.com/in/akash-meruva-ab1420222"
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-white transition-colors"
+            >
+              LinkedIn
+            </a>
+            <span className="text-neutral-700 select-none">·</span>
+            <a
+              href={`mailto:${resume.contact.email}`}
+              className="hover:text-white transition-colors"
+            >
+              Email
+            </a>
           </div>
-        </Reveal>
-      </div>
-    </Band>
+        </footer>
+
+      </main>
+    </div>
   );
 }
 
-/* ── Contact ───────────────────────────────────────────────── */
-
-function Contact() {
+function SectionHeading({ title }: { title: string }) {
   return (
-    <Band id="contact">
-      <Reveal className="text-center">
-        <div className="flex justify-center">
-          <Eyebrow>Contact</Eyebrow>
-        </div>
-        <h2 className="mt-6 text-3xl font-semibold tracking-[-0.02em] text-balance sm:text-5xl">
-          Got something hard to build?
-        </h2>
-        <p className="mx-auto mt-5 max-w-xl text-muted">
-          Always up for a conversation about agents, infrastructure, or a
-          problem that hasn&apos;t been solved cleanly yet.
-        </p>
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-5">
-          <a
-            href={`mailto:${site.email}`}
-            className="group inline-flex items-center gap-2 rounded-md bg-accent px-5 py-3 font-mono text-sm text-bg transition-opacity hover:opacity-90"
-          >
-            {site.email}
-            <span className="transition-transform group-hover:translate-x-0.5">
-              →
-            </span>
-          </a>
-          <a
-            href={site.resumeUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="font-mono text-sm text-muted transition-colors hover:text-ink"
-          >
-            Résumé ↗
-          </a>
-        </div>
-      </Reveal>
-    </Band>
+    <h2 className="text-lg font-semibold tracking-tight text-white border-b border-neutral-800 pb-2">
+      {title}
+    </h2>
   );
 }
 
-/* ── Footer ────────────────────────────────────────────────── */
-
-function Footer() {
+function GitHubIcon({ className }: { className?: string }) {
   return (
-    <footer className="border-t border-line">
-      <Shell className="flex flex-col-reverse gap-6 py-10 sm:flex-row sm:items-center sm:justify-between">
-        <p className="font-mono text-xs text-dim">
-          © {new Date().getFullYear()} {site.name} · {site.location}
-        </p>
-        <ul className="flex flex-wrap gap-6">
-          {site.socials.map((social) => (
-            <li key={social.label}>
-              <a
-                href={social.href}
-                target="_blank"
-                rel="noreferrer"
-                className="font-mono text-sm text-muted transition-colors hover:text-accent"
-              >
-                {social.label} ↗
-              </a>
-            </li>
-          ))}
-        </ul>
-      </Shell>
-    </footer>
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+      />
+    </svg>
   );
 }
 
-/* ── Layout primitives ─────────────────────────────────────── */
-
-function Shell({
-  children,
-  className = "",
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
+function LinkedInIcon({ className }: { className?: string }) {
   return (
-    <div className={`mx-auto max-w-6xl px-6 ${className}`}>{children}</div>
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
+      <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9h2.79v8.37H6.46V10.9M7.86 6.32a1.64 1.64 0 0 0-1.66 1.63 1.64 1.64 0 0 0 1.66 1.63 1.64 1.64 0 0 0 1.65-1.63 1.64 1.64 0 0 0-1.65-1.63z" />
+    </svg>
   );
 }
 
-function Band({
-  id,
-  tone = "base",
-  children,
-}: {
-  id?: string;
-  tone?: "base" | "raised";
-  children: React.ReactNode;
-}) {
+function MailIcon({ className }: { className?: string }) {
   return (
-    <section
-      id={id}
-      className={`border-t border-line ${tone === "raised" ? "bg-raised" : ""}`}
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
     >
-      <Shell className="py-24 sm:py-32">{children}</Shell>
-    </section>
+      <rect width="20" height="16" x="2" y="4" rx="2" />
+      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+    </svg>
+  );
+}
+
+function PhoneIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+    </svg>
+  );
+}
+
+function DownloadIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+      <polyline points="7 10 12 15 17 10" />
+      <line x1="12" x2="12" y1="15" y2="3" />
+    </svg>
   );
 }

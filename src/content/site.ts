@@ -1,249 +1,194 @@
-// ─────────────────────────────────────────────────────────────
-// EDIT THIS FILE. Everything the site renders comes from here.
-// ─────────────────────────────────────────────────────────────
+export type Achievement = {
+  text: string;
+  url?: string;
+};
 
-// basePath is not applied to plain <a href> / <img src>, only to next/link and
-// next/image — so files served straight out of public/ need it prefixed here.
-const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-
-export const site = {
-  name: "Akash Meruva",
-  handle: "akash.meruva",
-  role: "Software Development Engineer",
-  company: "Autodesk",
-  location: "Bangalore, India",
-  status: "Building AI agents at Autodesk",
-  email: "akash.meruva2003@gmail.com",
-  resumeUrl: `${base}/Akash_Meruva_Resume.pdf`,
-  socials: [
-    { label: "GitHub", href: "https://github.com/akashmeruva9" },
-    {
-      label: "LinkedIn",
-      href: "https://www.linkedin.com/in/akash-meruva-ab1420222",
-    },
-    { label: "Email", href: "mailto:akash.meruva2003@gmail.com" },
-  ],
-} as const;
-
-type HeroFragment = { text: string; accent?: boolean };
-
-// The hero headline. `accent` is the coral-highlighted tail.
-export const hero: {
-  lines: string[];
-  accent: string;
-  body: HeroFragment[];
-} = {
-  lines: ["I build agents that", "run production,"],
-  accent: "not demos.",
-  // Fragments marked `accent: true` render in the highlight color.
-  body: [
-    { text: "I ship " },
-    { text: "autonomous systems", accent: true },
-    {
-      text: " that own real operational surface — servers that heal themselves, DNS that answers in Slack, ",
-    },
-    { text: "multi-agent runtimes", accent: true },
-    {
-      text: " that replace dashboards. If it has to hold up at enterprise scale, ",
-    },
-    { text: "I'll own it end to end", accent: true },
-    { text: "." },
-  ],
+export type SkillCategory = {
+  category: string;
+  items: string[];
 };
 
 export type Project = {
   title: string;
-  blurb: string;
-  detail: string;
-  stack: string[];
-  year: string;
-  status?: string;
-  href?: string;
-  repo?: string;
-  // Fake browser-chrome label + the mono lines rendered inside the card preview.
-  window: string;
-  preview: string[];
+  links: { label: string; url: string }[];
+  points: string[];
 };
-
-export const projects: Project[] = [
-  {
-    title: "SAOMA",
-    blurb: "Servers that maintain and heal themselves",
-    detail:
-      "An autonomous AI workflow maintaining and self-remediating 15+ servers behind Storebox, Autodesk's desktop build lifecycle and management platform. Saves $20,400/year and 75 engineer-hours a month.",
-    stack: ["Python", "LangGraph", "AWS"],
-    year: "2025",
-    status: "In production at Autodesk",
-    window: "saoma · self-remediation",
-    preview: [
-      "▸ health sweep     15 hosts",
-      "▸ anomaly          disk 94%",
-      "▸ remediate        auto ✓",
-      "$20,400/yr · 75 hrs/mo",
-    ],
-  },
-  {
-    title: "StoreboxAI",
-    blurb: "10 agents answering Filer questions in Slack",
-    detail:
-      "A hierarchical multi-agent chat agent — 10 specialised agents coordinating in Slack for real-time Filer insights and health monitoring. Cut daily monitoring from 6 hours to 1.",
-    stack: ["LangGraph", "Slack", "RAG"],
-    year: "2025",
-    status: "In production at Autodesk",
-    window: "storebox-ai · slack",
-    preview: [
-      "@storebox filer health?",
-      "├─ router → 3 agents",
-      "├─ metrics · logs · docs",
-      "6 hrs → 1 hr daily",
-    ],
-  },
-  {
-    title: "DNSQ",
-    blurb: "DNS operations as a conversation",
-    detail:
-      "An AI agent for DNS operations using 13 tools and RAG, served in Slack and a web portal. Scalable CRUD across 50,000+ records in 920+ zones; 75% faster request processing.",
-    stack: ["GPT-5.5", "ChromaDB", "AWS"],
-    year: "2025",
-    status: "Enterprise scale",
-    window: "dnsq · 920 zones",
-    preview: [
-      "> add CNAME app.corp →",
-      "  13 tools · RAG lookup",
-      "  50,000+ records",
-      "75% faster · $20,000/yr",
-    ],
-  },
-  {
-    title: "Sahayak & UCXP",
-    blurb: "Onboard a business with a JSON manifest",
-    detail:
-      "A manifest-driven platform where businesses onboard via JSON and are instantly served across chat, voice, WhatsApp, web and Android with zero custom code. LangGraph runtime on Sarvam AI (STT, LLM, TTS, translation).",
-    stack: ["LangGraph", "Sarvam AI", "Next.js"],
-    year: "2026",
-    status: "2nd place · Sarvam Epoch Buildathon'26",
-    repo: "https://github.com/akashmeruva9",
-    window: "ucxp · manifest.json",
-    preview: [
-      '{ "business": "kirana",',
-      '  "channels": ["voice",',
-      '   "whatsapp", "web"] }',
-      "→ live in 0 lines of code",
-    ],
-  },
-];
-
-export const services = [
-  {
-    title: "Agentic AI systems",
-    detail:
-      "Multi-agent architectures with LangGraph and LangChain — routing, tool use, RAG, guardrails, agent security, and the observability to prove they work.",
-  },
-  {
-    title: "Cloud & backend",
-    detail:
-      "AWS Lambda, CloudFormation, DynamoDB, API Gateway and WebSockets. Systems that stay boring under enterprise load.",
-  },
-  {
-    title: "Evaluation & observability",
-    detail:
-      "Agentic testing and evaluation frameworks surfacing CSAT, accuracy, cost savings and human hours saved — so agents are measured, not assumed.",
-  },
-  {
-    title: "Multiplatform apps",
-    detail:
-      "Kotlin, Jetpack Compose and Compose Multiplatform. Mentored GSoC contributors shipping biometric auth across Android, iOS, macOS, Windows and Linux.",
-  },
-] as const;
 
 export type Job = {
+  role: string;
   company: string;
-  title: string;
   period: string;
-  place: string;
-  summary: string;
+  location: string;
+  points: string[];
 };
 
-export const experience: Job[] = [
-  {
-    company: "Autodesk",
-    title: "Software Development Engineer",
-    period: "Jul 2025 — Present",
-    place: "Bangalore · Remote",
-    summary:
-      "Own SAOMA, StoreboxAI and the agentic testing frameworks behind them. Built the observability and business dashboards that surface CSAT, accuracy and cost savings across all three systems.",
+// Exact representation of Akash Meruva's Resume
+export const resume = {
+  name: "Akash Meruva",
+  role: "Software Development Engineer",
+  company: "Autodesk",
+  location: "Bangalore, Karnataka, India",
+  summary:
+    "Software Development Engineer at Autodesk specializing in Agentic AI, Autonomous Multi-Agent Systems, and Cloud Infrastructure.",
+  contact: {
+    email: "akash.meruva2003@gmail.com",
+    phone: "+91 8247540461",
+    github: {
+      username: "akashmeruva9",
+      url: "https://github.com/akashmeruva9",
+    },
+    linkedin: {
+      username: "akash-meruva-ab1420222",
+      url: "https://www.linkedin.com/in/akash-meruva-ab1420222",
+    },
+    resumePdf: "/Akash_Meruva_Resume.pdf",
   },
-  {
-    company: "Autodesk",
-    title: "Software Development Engineer Intern",
-    period: "Jan 2025 — Jun 2025",
-    place: "Bangalore · On-site",
-    summary:
-      "Built DNSQ, an AI agent for DNS operations across 13 tools and RAG, delivering CRUD over 50,000+ records in 920+ zones and cutting request processing time by 75%.",
-  },
-  {
-    company: "Google Summer of Code",
-    title: "Mentor",
-    period: "Mar 2025 — Aug 2025",
-    place: "Remote",
-    summary:
-      "Mentored contributors building biometric and face-based authentication across Android, iOS, macOS, Windows and Linux for the Mifos Passcode Library, a Compose Multiplatform library.",
-  },
-];
 
-export const achievements = [
-  {
-    label: "2nd place",
-    detail: "Sarvam AI Epoch Buildathon'26 — 220+ teams, 3,000+ builders",
-  },
-  {
-    label: "Winner",
-    detail: "Smart India Hackathon 2024, national level (PS-1747)",
-  },
-  { label: "5+ wins", detail: "Sarvam Buildathon'24, Coindcx Unfold'23, IndianOil Hackathon'23" },
-  {
-    label: "Published",
-    detail: "IEEE paper — real-time object detection with AI/ML",
-  },
-  {
-    label: "Competitive",
-    detail: "Codeforces Specialist 1434 · CodeChef 3★ 1601 · LeetCode 1644",
-  },
-];
+  experience: [
+    {
+      role: "Software Development Engineer",
+      company: "Autodesk",
+      period: "07/2025 – present",
+      location: "Remote – Bangalore, Karnataka, India",
+      points: [
+        "Built **SAOMA**, an **AI workflow** that **autonomously maintains** and **self-remediates 15+ servers** behind **Storebox**, Autodesk’s **desktop build lifecycle and management platform**, saving **$20,400 /year** and **75 hours/month**.",
+        "Designed and developed **StoreboxAI**, a **Hierarchical Multi-Agent Chat Agent** of **10 agents** in **Slack** for **real-time Filer insights** and **health monitoring**, cutting daily monitoring from **6 to 1 hour** and saving **$25,200 /year**.",
+        "Built **observability**, **business dashboards**, and **agentic testing & evaluation frameworks** for **DNSQ**, **StoreboxAI**, and **SAOMA**, surfacing **CSAT**, **Accuracy**, **cost savings**, and **human hours saved**.",
+      ],
+    },
+    {
+      role: "Software Development Engineer Intern",
+      company: "Autodesk",
+      period: "01/2025 – 06/2025",
+      location: "On-Site – Bangalore, Karnataka, India",
+      points: [
+        "Built **DNSQ**, an **AI agent** for **DNS operations** using **13 tools** and **RAG** (**GPT-5.5**, **ChromaDB**, **AWS**) in **Slack** and a **DNS web portal**, cutting request processing time by **75%** and saving **$20,000/year**.",
+        "Solely owned and built **DNSQ** end-to-end, serving **500–1000 sessions/month** with **scalable CRUD** across **50,000+ resource records** in **920+ DNS zones** at **enterprise scale** across Autodesk.",
+      ],
+    },
+    {
+      role: "Mentor",
+      company: "Google Summer Of Code",
+      period: "03/2025 – 08/2025",
+      location: "Remote",
+      points: [
+        "Mentored **GSOC** contributors building **biometric and face-based authentication** across **Android**, **iOS**, **macOS**, **Windows**, and **Linux** for the **Mifos Passcode Library**, a **Compose Multiplatform** library.",
+      ],
+    },
+  ] as Job[],
 
-export const skillGroups = [
-  { label: "Languages", items: ["C", "C++", "Python", "Kotlin"] },
-  {
-    label: "Agentic AI",
-    items: [
-      "LangGraph",
-      "LangChain",
-      "RAG",
-      "Guardrails",
-      "Agent Security",
-      "AI Observability",
-    ],
-  },
-  {
-    label: "Cloud",
-    items: [
-      "AWS Lambda",
-      "CloudFormation",
-      "DynamoDB",
-      "API Gateway",
-      "Docker",
-      "WebSockets",
-    ],
-  },
-  {
-    label: "Mobile",
-    items: ["Jetpack Compose", "Compose Multiplatform", "MVVM"],
-  },
-] as const;
+  projects: [
+    {
+      title: "OpenLens",
+      links: [
+        {
+          label: "Pitch Video",
+          url: "https://drive.google.com/file/d/1ieTQUYxL5JFkO9oQh3_xmPvbID1A4tJ3/view?usp=sharing",
+        },
+        {
+          label: "Github",
+          url: "https://github.com/akashmeruva9/open-lens",
+        },
+        {
+          label: "Live",
+          url: "https://openlens-web-948923830185.us-central1.run.app/",
+        },
+      ],
+      points: [
+        "Built **OpenLens**, an **AI media house** that turns each story into a reviewed **Claim & Evidence Ledger** and ships it across **web**, **mobile**, **narrated videos**, and channel posts for **YouTube**, **X**, **Instagram**, **Facebook**, and **WhatsApp**.",
+        "Architected a **Gemini** agent pipeline (**claims**, **corroboration**, **research**, **QA**, **scripts**) and a **video factory** (**Gemini TTS**, **Veo**, **FFmpeg**) on **GCP** (**Cloud Run**, **Firestore**, **Vertex AI**) with **Next.js** and **Expo** apps.",
+      ],
+    },
+    {
+      title: "Sahayak Agent & UCXP Protocol",
+      links: [
+        {
+          label: "Pitch Video",
+          url: "https://drive.google.com/file/d/1wYmC7KAdk6p2E8STL1A-TuyYvlAwnPb0/view?usp=sharing",
+        },
+        {
+          label: "Github",
+          url: "https://github.com/akashmeruva9/sahayak-ucxp-sarvam",
+        },
+        {
+          label: "Live",
+          url: "https://sahayak-ucxp.vercel.app",
+        },
+      ],
+      points: [
+        "Built **Sahayak Agent** and the **UCXP Protocol**, a **manifest-driven platform** where businesses onboard via **JSON manifests** and are served across **chat, voice, WhatsApp, web, and Android** with **zero custom code**.",
+        "Architected a **LangGraph**-based **UCXP Runtime** on **Sarvam AI** (**STT**, **LLM**, **TTS**, **translation**), deployed on **Railway/Vercel** with **Shopify** and **Sarvam Samvaad** voice support.",
+      ],
+    },
+  ] as Project[],
 
-export const education = {
-  degree: "B.Tech, Computer Science (AI & ML)",
-  school: "SRM University, AP",
-  period: "2021 — 2025",
-  grade: "8.54 / 10",
-} as const;
+  achievements: [
+    {
+      text: "**2nd Place** at **Sarvam AI Epoch Buildathon’26** (**220+ teams**, **3000+ builders**) winning a prize of **Rs. 1 lakh**.",
+    },
+    {
+      text: "**Winner** in the National **Smart India Hackathon 2024** for PS - 1747 securing a prize of **1 lakh rupees**.",
+      url: "https://sih.gov.in/sih2024/sih2024-grand-finale-result",
+    },
+    {
+      text: "**Winner** in **5+ hackathons**: **Sarvam Buildathon’26**, **SIH’24**, **Coindcx Unfold’23**, **IndianOil Hackathon’23**, etc.",
+      url: "https://devfolio.co/projects/webverse-86e9",
+    },
+  ] as Achievement[],
+
+  education: {
+    period: "09/2021 – 06/2025",
+    degree: "B.Tech in Computer Science – AI & ML",
+    institution: "SRM University, AP",
+    grade: "Grade: 8.54/10",
+  },
+
+  skills: [
+    {
+      category: "Languages",
+      items: ["C", "C++", "Python"],
+    },
+    {
+      category: "Agentic AI",
+      items: [
+        "LangGraph",
+        "LangChain",
+        "RAG",
+        "Guardrails",
+        "ADLC",
+        "Agent Security",
+        "Prompt Engineering",
+        "AI Observability",
+      ],
+    },
+    {
+      category: "AI Tools",
+      items: ["Claude Code", "Cursor", "Crew AI", "Retool"],
+    },
+    {
+      category: "Cloud",
+      items: [
+        "AWS Lambda",
+        "CloudFormation",
+        "DynamoDB",
+        "Docker",
+        "API Gateway",
+        "WebSockets",
+      ],
+    },
+    {
+      category: "Course Work",
+      items: [
+        "Data Structures and Algorithms",
+        "Artificial Intelligence",
+        "Machine Learning",
+        "Data Base Management Systems",
+        "Computer Networks",
+        "Operating Systems",
+        "Object-Oriented Programming & Software Engineering",
+      ],
+    },
+  ] as SkillCategory[],
+};
+
+export const site = resume;
