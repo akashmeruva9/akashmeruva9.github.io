@@ -32,7 +32,6 @@ export const resume = {
     "Software Development Engineer at Autodesk specializing in Agentic AI, Autonomous Multi-Agent Systems, and Cloud Infrastructure.",
   contact: {
     email: "akash.meruva2003@gmail.com",
-    phone: "+91 8247540461",
     github: {
       username: "akashmeruva9",
       url: "https://github.com/akashmeruva9",
@@ -41,7 +40,6 @@ export const resume = {
       username: "akash-meruva-ab1420222",
       url: "https://www.linkedin.com/in/akash-meruva-ab1420222",
     },
-    resumePdf: "/Akash_Meruva_Resume.pdf",
   },
 
   experience: [

@@ -12,8 +12,6 @@ page renders whatever that file exports.
   `hero.body` (fragments; `accent: true` colours a phrase).
 - Project cards: `projects[]`. `preview` is the mono text inside the fake
   browser window — the last line is highlighted automatically.
-- Résumé: replace `public/Akash_Meruva_Resume.pdf` (there's a second copy at the
-  repo root you can delete; only the one in `public/` is served).
 
 ## Local development
 
