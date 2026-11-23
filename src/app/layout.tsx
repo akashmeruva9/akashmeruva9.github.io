@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { resume } from "@/content/site";
 import "./globals.css";
@@ -8,6 +8,10 @@ const mono = Geist_Mono({ variable: "--font-mono", subsets: ["latin"] });
 
 const title = `${resume.name} · ${resume.role}`;
 const description = `${resume.name} — ${resume.role} at ${resume.company}. ${resume.summary}`;
+
+export const viewport: Viewport = {
+  themeColor: "#0a0a0c",
+};
 
 export const metadata: Metadata = {
   title,
@@ -44,7 +48,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark scroll-smooth">
       <body
-        className={`${sans.variable} ${mono.variable} font-sans bg-[#0a0a0c] text-[#f4f4f5] antialiased selection:bg-neutral-800 selection:text-white`}
+        className={`${sans.variable} ${mono.variable} font-sans bg-[#0a0a0c] text-[#f4f4f5] antialiased selection:bg-amber-300/25 selection:text-white`}
       >
         {children}
       </body>

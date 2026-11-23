@@ -15,6 +15,7 @@ export type Project = {
 };
 
 export type Job = {
+  logo?: "autodesk" | "gsoc";
   role: string;
   company: string;
   period: string;
@@ -44,33 +45,36 @@ export const resume = {
 
   experience: [
     {
-      role: "Software Development Engineer",
+      logo: "autodesk",
+      role: "SDE-1",
       company: "Autodesk",
       period: "07/2025 – present",
       location: "Remote – Bangalore, Karnataka, India",
       points: [
-        "Built **SAOMA**, an **AI workflow** that **autonomously maintains** and **self-remediates 15+ servers** behind **Storebox**, Autodesk’s **desktop build lifecycle and management platform**, saving **$20,400 /year** and **75 hours/month**.",
-        "Designed and developed **StoreboxAI**, a **Hierarchical Multi-Agent Chat Agent** of **10 agents** in **Slack** for **real-time Filer insights** and **health monitoring**, cutting daily monitoring from **6 to 1 hour** and saving **$25,200 /year**.",
-        "Built **observability**, **business dashboards**, and **agentic testing & evaluation frameworks** for **DNSQ**, **StoreboxAI**, and **SAOMA**, surfacing **CSAT**, **Accuracy**, **cost savings**, and **human hours saved**.",
+        "Built SAOMA, an AI workflow that autonomously maintains and self-remediates 15+ servers behind Storebox, Autodesk’s desktop build lifecycle and management platform, saving $20,400 /year and 75 hours/month.",
+        "Designed and developed StoreboxAI, a Hierarchical Multi-Agent Chat Agent of 10 agents in Slack for real-time Filer insights and health monitoring, cutting daily monitoring from 6 to 1 hour and saving $25,200 /year.",
+        "Built observability, business dashboards, and agentic testing & evaluation frameworks for DNSQ, StoreboxAI, and SAOMA, surfacing CSAT, Accuracy, cost savings, and human hours saved.",
       ],
     },
     {
-      role: "Software Development Engineer Intern",
+      logo: "autodesk",
+      role: "SDE Intern",
       company: "Autodesk",
       period: "01/2025 – 06/2025",
       location: "On-Site – Bangalore, Karnataka, India",
       points: [
-        "Built **DNSQ**, an **AI agent** for **DNS operations** using **13 tools** and **RAG** (**GPT-5.5**, **ChromaDB**, **AWS**) in **Slack** and a **DNS web portal**, cutting request processing time by **75%** and saving **$20,000/year**.",
-        "Solely owned and built **DNSQ** end-to-end, serving **500–1000 sessions/month** with **scalable CRUD** across **50,000+ resource records** in **920+ DNS zones** at **enterprise scale** across Autodesk.",
+        "Built DNSQ, an AI agent for DNS operations using 13 tools and RAG (GPT-5.5, ChromaDB, AWS) in Slack and a DNS web portal, cutting request processing time by 75% and saving $20,000/year.",
+        "Solely owned and built DNSQ end-to-end, serving 500–1000 sessions/month with scalable CRUD across 50,000+ resource records in 920+ DNS zones at enterprise scale across Autodesk.",
       ],
     },
     {
+      logo: "gsoc",
       role: "Mentor",
       company: "Google Summer Of Code",
       period: "03/2025 – 08/2025",
       location: "Remote",
       points: [
-        "Mentored **GSOC** contributors building **biometric and face-based authentication** across **Android**, **iOS**, **macOS**, **Windows**, and **Linux** for the **Mifos Passcode Library**, a **Compose Multiplatform** library.",
+        "Mentored GSOC contributors building biometric and face-based authentication across Android, iOS, macOS, Windows, and Linux for the Mifos Passcode Library, a Compose Multiplatform library.",
       ],
     },
   ] as Job[],
@@ -93,8 +97,8 @@ export const resume = {
         },
       ],
       points: [
-        "Built **OpenLens**, an **AI media house** that turns each story into a reviewed **Claim & Evidence Ledger** and ships it across **web**, **mobile**, **narrated videos**, and channel posts for **YouTube**, **X**, **Instagram**, **Facebook**, and **WhatsApp**.",
-        "Architected a **Gemini** agent pipeline (**claims**, **corroboration**, **research**, **QA**, **scripts**) and a **video factory** (**Gemini TTS**, **Veo**, **FFmpeg**) on **GCP** (**Cloud Run**, **Firestore**, **Vertex AI**) with **Next.js** and **Expo** apps.",
+        "Built OpenLens, an AI media house that turns each story into a reviewed Claim & Evidence Ledger and ships it across web, mobile, narrated videos, and channel posts for YouTube, X, Instagram, Facebook, and WhatsApp.",
+        "Architected a Gemini agent pipeline (claims, corroboration, research, QA, scripts) and a video factory (Gemini TTS, Veo, FFmpeg) on GCP (Cloud Run, Firestore, Vertex AI) with Next.js and Expo apps.",
       ],
     },
     {
@@ -114,32 +118,26 @@ export const resume = {
         },
       ],
       points: [
-        "Built **Sahayak Agent** and the **UCXP Protocol**, a **manifest-driven platform** where businesses onboard via **JSON manifests** and are served across **chat, voice, WhatsApp, web, and Android** with **zero custom code**.",
-        "Architected a **LangGraph**-based **UCXP Runtime** on **Sarvam AI** (**STT**, **LLM**, **TTS**, **translation**), deployed on **Railway/Vercel** with **Shopify** and **Sarvam Samvaad** voice support.",
+        "Built Sahayak Agent and the UCXP Protocol, a manifest-driven platform where businesses onboard via JSON manifests and are served across chat, voice, WhatsApp, web, and Android with zero custom code.",
+        "Architected a LangGraph-based UCXP Runtime on Sarvam AI (STT, LLM, TTS, translation), deployed on Railway/Vercel with Shopify and Sarvam Samvaad voice support.",
       ],
     },
   ] as Project[],
 
   achievements: [
     {
-      text: "**2nd Place** at **Sarvam AI Epoch Buildathon’26** (**220+ teams**, **3000+ builders**) winning a prize of **Rs. 1 lakh**.",
+      text: "2nd Place at Sarvam AI Epoch Buildathon’26 (220+ teams, 3000+ builders) winning a prize of Rs. 1 lakh.",
     },
     {
-      text: "**Winner** in the National **Smart India Hackathon 2024** for PS - 1747 securing a prize of **1 lakh rupees**.",
+      text: "Winner in the National Smart India Hackathon 2024 for PS - 1747 securing a prize of 1 lakh rupees.",
       url: "https://sih.gov.in/sih2024/sih2024-grand-finale-result",
     },
     {
-      text: "**Winner** in **5+ hackathons**: **Sarvam Buildathon’26**, **SIH’24**, **Coindcx Unfold’23**, **IndianOil Hackathon’23**, etc.",
+      text: "Winner in 5+ hackathons: Sarvam Buildathon’26, SIH’24, Coindcx Unfold’23, IndianOil Hackathon’23, etc.",
       url: "https://devfolio.co/projects/webverse-86e9",
     },
   ] as Achievement[],
 
-  education: {
-    period: "09/2021 – 06/2025",
-    degree: "B.Tech in Computer Science – AI & ML",
-    institution: "SRM University, AP",
-    grade: "Grade: 8.54/10",
-  },
 
   skills: [
     {
@@ -172,18 +170,6 @@ export const resume = {
         "Docker",
         "API Gateway",
         "WebSockets",
-      ],
-    },
-    {
-      category: "Course Work",
-      items: [
-        "Data Structures and Algorithms",
-        "Artificial Intelligence",
-        "Machine Learning",
-        "Data Base Management Systems",
-        "Computer Networks",
-        "Operating Systems",
-        "Object-Oriented Programming & Software Engineering",
       ],
     },
   ] as SkillCategory[],

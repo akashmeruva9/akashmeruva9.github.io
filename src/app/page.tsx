@@ -1,178 +1,170 @@
+import { Fragment } from "react";
 import { resume } from "@/content/site";
-
-function FormattedText({ text }: { text: string }) {
-  const parts = text.split(/(\*\*.*?\*\*)/g);
-  return (
-    <>
-      {parts.map((part, i) => {
-        if (part.startsWith("**") && part.endsWith("**")) {
-          return (
-            <strong key={i} className="text-white font-medium">
-              {part.slice(2, -2)}
-            </strong>
-          );
-        }
-        return part;
-      })}
-    </>
-  );
-}
+import FlightPath from "@/components/flight-path";
+import MobileMission from "@/components/mobile-mission";
+import NightSky from "@/components/night-sky";
+import {
+  jobLogos,
+  PinIcon,
+  TrophyIcon,
+  skillIcons,
+  linkIcons,
+} from "@/components/logos";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[#0a0a0c] text-[#d4d4d8] antialiased selection:bg-neutral-800 selection:text-white">
-      <main className="mx-auto max-w-3xl px-6 py-14 sm:py-20 space-y-12">
-        
+    <div className="relative min-h-screen bg-[#0a0a0c] text-[#d4d4d8] antialiased selection:bg-amber-300/25 selection:text-white">
+      <NightSky />
+      <FlightPath />
+      <MobileMission />
+      <main className="relative mx-auto w-full max-w-3xl px-5 pt-[3.75rem] pb-16 sm:px-10 sm:pt-24 sm:pb-24 lg:py-24 lg:mx-0 lg:max-w-[120rem] lg:pl-48 lg:pr-12 xl:pr-16 flex flex-col gap-14 sm:gap-20">
+
         {/* ── Header / Profile ── */}
-        <header className="space-y-4 border-b border-neutral-800 pb-10">
-          <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-3">
-            <div>
-              <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white font-sans">
-                {resume.name}
-              </h1>
-              <p className="mt-1 text-base text-neutral-400">
-                {resume.role} —{" "}
-                <span className="text-neutral-200 font-medium">
-                  {resume.company}
-                </span>
-              </p>
-            </div>
+        <header className="-mb-6 space-y-4 border-b border-neutral-800 pb-6 sm:-mb-8 sm:space-y-5 sm:pb-8">
+          <div>
+            <h1 className="text-[1.85rem] leading-tight sm:text-4xl font-semibold tracking-tight text-white font-sans">
+              {resume.name}
+            </h1>
+            <p className="mt-2 text-[15px] leading-7 text-neutral-400 sm:text-lg">
+              {resume.role} —{" "}
+              <span className="text-neutral-200 font-medium">{resume.company}</span>
+            </p>
           </div>
 
-          {/* Contact Bar matching resume header */}
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 pt-2 text-xs font-mono text-neutral-400">
+          <div className="flex flex-wrap items-center gap-2 text-[13px] font-mono text-neutral-300 sm:gap-x-5 sm:gap-y-3 sm:pt-3">
             <a
               href={resume.contact.github.url}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-1.5 transition-colors hover:text-white"
+              className="inline-flex min-w-0 items-center gap-1.5 rounded-full border border-neutral-800 bg-neutral-900/60 px-3 py-1.5 transition-colors hover:text-amber-200 sm:rounded-none sm:border-0 sm:bg-transparent sm:p-0"
             >
               <GitHubIcon className="h-3.5 w-3.5 text-neutral-400" />
-              <span>/github {resume.contact.github.username}</span>
+              <span className="sm:hidden">GitHub</span>
+              <span className="hidden truncate sm:inline">/github {resume.contact.github.username}</span>
             </a>
 
-            <span className="text-neutral-700 select-none">|</span>
+            <span className="hidden text-neutral-700 select-none sm:inline">|</span>
 
             <a
               href={resume.contact.linkedin.url}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-1.5 transition-colors hover:text-white"
+              className="inline-flex min-w-0 items-center gap-1.5 rounded-full border border-neutral-800 bg-neutral-900/60 px-3 py-1.5 transition-colors hover:text-amber-200 sm:rounded-none sm:border-0 sm:bg-transparent sm:p-0"
             >
               <LinkedInIcon className="h-3.5 w-3.5 text-neutral-400" />
-              <span>/linkedin {resume.contact.linkedin.username}</span>
+              <span className="sm:hidden">LinkedIn</span>
+              <span className="hidden truncate sm:inline">/linkedin {resume.contact.linkedin.username}</span>
             </a>
 
-            <span className="text-neutral-700 select-none">|</span>
+            <span className="hidden text-neutral-700 select-none sm:inline">|</span>
 
             <a
               href={`mailto:${resume.contact.email}`}
-              className="inline-flex items-center gap-1.5 transition-colors hover:text-white"
+              className="inline-flex min-w-0 items-center gap-1.5 rounded-full border border-neutral-800 bg-neutral-900/60 px-3 py-1.5 transition-colors hover:text-amber-200 sm:rounded-none sm:border-0 sm:bg-transparent sm:p-0"
             >
               <MailIcon className="h-3.5 w-3.5 text-neutral-400" />
-              <span>{resume.contact.email}</span>
+              <span className="sm:hidden">Email</span>
+              <span className="hidden truncate sm:inline">{resume.contact.email}</span>
             </a>
           </div>
         </header>
 
         {/* ── Work Experience ── */}
-        <section className="space-y-6">
+        <section id="experience" data-label="Experience" className="space-y-8">
           <SectionHeading title="Work Experience" />
 
-          <div className="space-y-8">
-            {resume.experience.map((job, idx) => (
-              <article key={idx} className="space-y-2">
-                <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
-                  <h3 className="text-base font-medium text-white">
-                    {job.role} —{" "}
-                    <span className="text-neutral-300 font-normal">
-                      {job.company}
-                    </span>
-                  </h3>
-                  <span className="font-mono text-xs text-neutral-400 whitespace-nowrap">
-                    {job.period}
-                  </span>
-                </div>
-
-                <p className="text-xs text-neutral-500 font-mono">
-                  {job.location}
-                </p>
-
-                <ul className="mt-2.5 space-y-2 text-sm leading-relaxed text-neutral-300">
-                  {job.points.map((pt, pIdx) => (
-                    <li key={pIdx} className="flex items-start gap-2.5">
-                      <span className="text-neutral-500 mt-1 select-none leading-none">•</span>
+          <div className="space-y-10 sm:space-y-12">
+            {resume.experience.map((job, idx) => {
+              const Logo = job.logo ? jobLogos[job.logo] : null;
+              return (
+                <article key={idx} data-context={`${job.company} · ${job.role}`} className="space-y-2.5 sm:space-y-3">
+                  <div className="flex flex-col gap-1.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-1">
+                    <h3 className="flex items-start gap-3 text-[17px] leading-7 font-medium text-white text-pretty sm:text-lg">
+                      {Logo && <Logo className="mt-1 h-5 w-5 shrink-0" />}
                       <span>
-                        <FormattedText text={pt} />
+                        {job.role}
+                        <span className="hidden sm:inline">
+                          {"\u00a0"}—{" "}
+                          <span className="text-neutral-300 font-normal">{job.company}</span>
+                        </span>
                       </span>
-                    </li>
-                  ))}
-                </ul>
-              </article>
-            ))}
+                    </h3>
+                    <span className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5 pl-8 sm:block sm:pl-0">
+                      <span className="text-[15px] text-neutral-300 sm:hidden">{job.company}</span>
+                      <span aria-hidden className="text-neutral-600 sm:hidden">·</span>
+                      <span className="font-mono text-[13px] text-neutral-400 whitespace-nowrap">
+                        {job.period}
+                      </span>
+                    </span>
+                  </div>
+
+                  <p className="flex items-start gap-1.5 pl-8 text-[13px] leading-5 text-neutral-400 font-mono sm:items-center sm:pl-0">
+                    <PinIcon className="mt-[3px] h-3.5 w-3.5 shrink-0 sm:mt-0" />
+                    {job.location}
+                  </p>
+
+                  <Points points={job.points} className="mt-3 sm:mt-4" />
+                </article>
+              );
+            })}
           </div>
         </section>
 
         {/* ── Projects ── */}
-        <section className="space-y-6">
+        <section id="projects" data-label="Projects" className="space-y-8">
           <SectionHeading title="Projects" />
 
-          <div className="space-y-8">
+          <div className="space-y-10 sm:space-y-12">
             {resume.projects.map((proj, idx) => (
-              <article key={idx} className="space-y-2.5">
-                <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1.5">
-                  <h3 className="text-base font-medium text-white">
-                    {proj.title}
-                  </h3>
+              <article key={idx} data-context={proj.title} className="space-y-4">
+                <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-baseline sm:gap-x-3 sm:gap-y-1.5">
+                  <h3 className="text-[17px] font-medium text-white sm:text-lg">{proj.title}</h3>
 
-                  <div className="flex items-center gap-2 text-xs font-mono">
-                    {proj.links.map((link, lIdx) => (
-                      <span key={lIdx} className="inline-flex items-center gap-2">
-                        {lIdx > 0 && <span className="text-neutral-700 select-none">|</span>}
-                        <a
-                          href={link.url}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="text-neutral-400 underline decoration-neutral-700 underline-offset-4 transition-colors hover:text-white hover:decoration-neutral-400"
-                        >
-                          {link.label}
-                        </a>
-                      </span>
-                    ))}
+                  <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[13px] font-mono sm:gap-x-3">
+                    {proj.links.map((link, lIdx) => {
+                      const Icon = link.label === "Github" ? GitHubIcon : linkIcons[link.label];
+                      return (
+                        <span key={lIdx} className="inline-flex items-center gap-2">
+                          {lIdx > 0 && <span className="hidden text-neutral-700 select-none sm:inline">|</span>}
+                          <a
+                            href={link.url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="group inline-flex items-center gap-1.5 py-1 text-neutral-400 transition-colors sm:py-0.5 hover:text-amber-200"
+                          >
+                            {Icon && <Icon className="h-3.5 w-3.5 shrink-0" />}
+                            <span className="underline decoration-neutral-700 underline-offset-4 group-hover:decoration-amber-200/60">
+                              {link.label}
+                            </span>
+                          </a>
+                        </span>
+                      );
+                    })}
                   </div>
                 </div>
 
-                <ul className="space-y-2 text-sm leading-relaxed text-neutral-300">
-                  {proj.points.map((pt, pIdx) => (
-                    <li key={pIdx} className="flex items-start gap-2.5">
-                      <span className="text-neutral-500 mt-1 select-none leading-none">•</span>
-                      <span>
-                        <FormattedText text={pt} />
-                      </span>
-                    </li>
-                  ))}
-                </ul>
+                <Points points={proj.points} />
               </article>
             ))}
           </div>
         </section>
 
         {/* ── Achievements ── */}
-        <section className="space-y-4">
+        <section id="achievements" data-label="Achievements" className="space-y-6">
           <SectionHeading title="Achievements" />
 
-          <ul className="space-y-2.5 text-sm leading-relaxed text-neutral-300">
+          <ul className="space-y-3.5 sm:space-y-4 text-[15px] leading-[1.7] text-neutral-200 sm:text-base sm:leading-7 xl:text-[17px] xl:leading-8">
             {resume.achievements.map((item, idx) => (
-              <li key={idx} className="flex items-start gap-2.5">
-                <span className="text-neutral-500 mt-1 select-none leading-none">•</span>
-                <span>
-                  <FormattedText text={item.text} />{" "}
+              <li key={idx} className="flex items-start gap-3 sm:gap-3.5">
+                <TrophyIcon className="mt-[3px] h-[18px] w-[18px] shrink-0 text-amber-400/90 sm:mt-1 sm:h-5 sm:w-5" />
+                <span className="text-pretty">
+                  {item.text}{" "}
                   {item.url && (
                     <a
                       href={item.url}
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex items-center gap-1 font-mono text-xs text-neutral-400 underline decoration-neutral-700 underline-offset-2 transition-colors hover:text-white hover:decoration-neutral-400"
+                      className="-my-1.5 inline-flex items-center gap-1 py-1.5 font-mono text-[13px] text-neutral-400 underline decoration-neutral-700 underline-offset-2 transition-colors hover:text-amber-200 hover:decoration-amber-200/60"
                     >
                       [link]
                     </a>
@@ -183,72 +175,63 @@ export default function Home() {
           </ul>
         </section>
 
-        {/* ── Education ── */}
-        <section className="space-y-4">
-          <SectionHeading title="Education" />
+        {/* ── Skills ── */}
+        <section id="skills" data-label="Skills" className="space-y-6">
+          <SectionHeading title="Skills" />
 
-          <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 text-sm">
-            <div>
-              <p className="text-white font-medium">
-                {resume.education.degree}{" "}
-                <span className="text-neutral-400 font-normal">
-                  at {resume.education.institution}
-                </span>
-              </p>
-              <p className="text-xs font-mono text-neutral-400 mt-0.5">
-                {resume.education.grade}
-              </p>
-            </div>
-            <span className="font-mono text-xs text-neutral-400 whitespace-nowrap">
-              {resume.education.period}
-            </span>
+          <div className="space-y-5 text-[15px] leading-7 sm:space-y-4 sm:text-base">
+            {resume.skills.map((skillGroup, idx) => {
+              const Icon = skillIcons[skillGroup.category];
+              return (
+                <div key={idx} className="flex flex-col gap-1 sm:flex-row sm:gap-4">
+                  <span className="flex items-center gap-2 font-mono text-[13px] text-neutral-400 font-medium sm:w-40 sm:shrink-0 pt-1">
+                    {Icon && <Icon className="h-4 w-4 shrink-0" />}
+                    {skillGroup.category}
+                  </span>
+                  <span className="text-neutral-200">
+                    {skillGroup.items.map((item, i) => (
+                      <Fragment key={item}>
+                        <span className="whitespace-nowrap">{item}</span>
+                        {i < skillGroup.items.length - 1 && ", "}
+                      </Fragment>
+                    ))}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </section>
 
-        {/* ── Skills ── */}
-        <section className="space-y-4">
-          <SectionHeading title="Skills" />
-
-          <div className="space-y-2.5 text-sm leading-relaxed">
-            {resume.skills.map((skillGroup, idx) => (
-              <div key={idx} className="flex flex-col sm:flex-row sm:gap-2">
-                <span className="font-mono text-xs text-neutral-400 font-medium sm:w-28 sm:shrink-0 pt-0.5">
-                  {skillGroup.category} :
-                </span>
-                <span className="text-neutral-200">
-                  {skillGroup.items.join(", ")}
-                </span>
-              </div>
-            ))}
-          </div>
+        {/* ── Finish line ── */}
+        <section id="finish" data-label="Touchdown" className="space-y-3">
+          <h2 className="text-lg font-semibold tracking-tight text-white sm:text-xl">
+            Touchdown on Mars.
+          </h2>
+          <p className="text-[15px] leading-7 text-neutral-300 sm:text-base">
+            Thanks for flying along. Want to build something together? Say hi at{" "}
+            <a
+              href={`mailto:${resume.contact.email}`}
+              className="[overflow-wrap:anywhere] text-amber-300 underline decoration-amber-300/40 underline-offset-4 transition-colors hover:text-amber-200 hover:decoration-amber-200"
+            >
+              {resume.contact.email}
+            </a>
+            .
+          </p>
         </section>
 
         {/* ── Minimal Footer ── */}
-        <footer className="pt-8 border-t border-neutral-800 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-xs font-mono text-neutral-400">
+        <footer className="pt-10 border-t border-neutral-800 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-[13px] font-mono text-neutral-400">
           <span>© {new Date().getFullYear()} {resume.name}</span>
-          <div className="flex items-center gap-4">
-            <a
-              href="https://github.com/akashmeruva9"
-              target="_blank"
-              rel="noreferrer"
-              className="hover:text-white transition-colors"
-            >
+          <div className="-my-2 flex items-center gap-5 sm:my-0 sm:gap-4">
+            <a href={resume.contact.github.url} target="_blank" rel="noreferrer" className="py-2 hover:text-amber-200 transition-colors sm:py-0">
               GitHub
             </a>
             <span className="text-neutral-700 select-none">·</span>
-            <a
-              href="https://www.linkedin.com/in/akash-meruva-ab1420222"
-              target="_blank"
-              rel="noreferrer"
-              className="hover:text-white transition-colors"
-            >
+            <a href={resume.contact.linkedin.url} target="_blank" rel="noreferrer" className="py-2 hover:text-amber-200 transition-colors sm:py-0">
               LinkedIn
             </a>
             <span className="text-neutral-700 select-none">·</span>
-            <a
-              href={`mailto:${resume.contact.email}`}
-              className="hover:text-white transition-colors"
-            >
+            <a href={`mailto:${resume.contact.email}`} className="py-2 hover:text-amber-200 transition-colors sm:py-0">
               Email
             </a>
           </div>
@@ -259,9 +242,22 @@ export default function Home() {
   );
 }
 
+function Points({ points, className = "" }: { points: string[]; className?: string }) {
+  return (
+    <ul className={`space-y-3 sm:space-y-4 text-[15px] leading-[1.7] text-neutral-200 sm:text-base sm:leading-7 xl:text-[17px] xl:leading-8 ${className}`}>
+      {points.map((pt, i) => (
+        <li key={i} className="flex items-start gap-3 sm:gap-3.5">
+          <span aria-hidden className="mt-[0.68rem] h-1 w-1 sm:mt-[0.7rem] shrink-0 rounded-full bg-neutral-500" />
+          <span className="text-pretty">{pt}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 function SectionHeading({ title }: { title: string }) {
   return (
-    <h2 className="text-lg font-semibold tracking-tight text-white border-b border-neutral-800 pb-2">
+    <h2 className="relative text-lg sm:text-xl font-semibold tracking-tight text-white border-b border-neutral-800 pb-3 after:absolute after:-bottom-px after:left-0 after:h-px after:w-10 after:bg-amber-300/80">
       {title}
     </h2>
   );
