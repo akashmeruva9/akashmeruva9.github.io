@@ -1,8 +1,14 @@
-import { Fragment } from "react";
+import { Fragment, type ReactNode } from "react";
 import { resume } from "@/content/site";
 import FlightPath from "@/components/flight-path";
 import MobileMission from "@/components/mobile-mission";
 import NightSky from "@/components/night-sky";
+import {
+  AsteroidPair,
+  Comet,
+  EarthGlow,
+  MarsHorizon,
+} from "@/components/space-objects";
 import {
   jobLogos,
   PinIcon,
@@ -13,7 +19,9 @@ import {
 
 export default function Home() {
   return (
-    <div className="relative min-h-screen bg-[#0a0a0c] text-[#d4d4d8] antialiased selection:bg-amber-300/25 selection:text-white">
+    <div className="relative min-h-screen overflow-x-clip bg-[#0a0a0c] text-[#d4d4d8] antialiased selection:bg-amber-300/25 selection:text-white">
+      <EarthGlow />
+      <MarsHorizon />
       <NightSky />
       <FlightPath />
       <MobileMission />
@@ -112,7 +120,7 @@ export default function Home() {
 
         {/* ── Projects ── */}
         <section id="projects" data-label="Projects" className="space-y-8">
-          <SectionHeading title="Projects" />
+          <SectionHeading title="Projects" decoration={<Comet />} />
 
           <div className="space-y-10 sm:space-y-12">
             {resume.projects.map((proj, idx) => (
@@ -151,7 +159,7 @@ export default function Home() {
 
         {/* ── Achievements ── */}
         <section id="achievements" data-label="Achievements" className="space-y-6">
-          <SectionHeading title="Achievements" />
+          <SectionHeading title="Achievements" decoration={<AsteroidPair />} />
 
           <ul className="space-y-3.5 sm:space-y-4 text-[15px] leading-[1.7] text-neutral-200 sm:text-base sm:leading-7 xl:text-[17px] xl:leading-8">
             {resume.achievements.map((item, idx) => (
@@ -255,9 +263,12 @@ function Points({ points, className = "" }: { points: string[]; className?: stri
   );
 }
 
-function SectionHeading({ title }: { title: string }) {
+// The h2 box is measured by the flight path, so decorations are absolute
+// (no layout change) and sit at -z-10 inside an isolated h2, under the text.
+function SectionHeading({ title, decoration }: { title: string; decoration?: ReactNode }) {
   return (
-    <h2 className="relative text-lg sm:text-xl font-semibold tracking-tight text-white border-b border-neutral-800 pb-3 after:absolute after:-bottom-px after:left-0 after:h-px after:w-10 after:bg-amber-300/80">
+    <h2 className="relative isolate text-lg sm:text-xl font-semibold tracking-tight text-white border-b border-neutral-800 pb-3 after:absolute after:-bottom-px after:left-0 after:h-px after:w-10 after:bg-amber-300/80 before:absolute before:-bottom-[2px] before:left-[38.5px] before:h-[3px] before:w-[3px] before:rounded-full before:bg-[#fcd34d] before:shadow-[0_0_4px_rgba(252,211,77,.6)]">
+      {decoration}
       {title}
     </h2>
   );

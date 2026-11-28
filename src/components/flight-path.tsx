@@ -9,6 +9,7 @@ import {
 } from "@/components/logos";
 import { Earth, Mars } from "@/components/planets";
 import ShipBody from "@/components/ship";
+import { MarsMoons, OrbitingMoon } from "@/components/space-objects";
 
 // Mission milestones, each pinned to its section heading. The last one is Mars.
 const MILESTONES = [
@@ -171,10 +172,11 @@ export default function FlightPath() {
 
       {/* Earth: launch point, beside the name */}
       <div ref={earth} className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2">
-        <span className="absolute right-[calc(100%+6px)] top-1/2 -translate-y-1/2 font-mono text-[9px] tracking-[0.2em] text-sky-300/60">
+        <span className="absolute right-[calc(100%+14px)] top-1/2 -translate-y-1/2 font-mono text-[9px] tracking-[0.2em] text-sky-300/60">
           EARTH
         </span>
-        <Earth className="h-10 w-10 drop-shadow-[0_0_10px_rgba(56,189,248,0.45)]" />
+        <Earth className="relative z-[1] h-10 w-10 drop-shadow-[0_0_10px_rgba(56,189,248,0.45)]" />
+        <OrbitingMoon />
       </div>
 
       {/* milestones: a node on the trajectory + a line out to its heading */}
@@ -198,11 +200,12 @@ export default function FlightPath() {
         data-lit="false"
         className="group absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2"
       >
-        <span className="absolute right-[calc(100%+6px)] top-1/2 -translate-y-1/2 font-mono text-[9px] tracking-[0.2em] text-orange-300/60">
+        <span className="absolute right-[calc(100%+14px)] top-1/2 -translate-y-1/2 font-mono text-[9px] tracking-[0.2em] text-orange-300/60">
           MARS
         </span>
         <span className="absolute left-[calc(50%+22px)] top-1/2 h-px w-[80px] bg-gradient-to-r from-orange-400/40 to-transparent transition-colors duration-500 group-data-[lit=true]:from-orange-300/80" />
-        <Mars className="relative h-10 w-10 drop-shadow-[0_0_8px_rgba(249,115,22,0.35)] transition-[filter] duration-700 group-data-[lit=true]:drop-shadow-[0_0_16px_rgba(249,115,22,0.7)]" />
+        <Mars className="relative z-[1] h-10 w-10 drop-shadow-[0_0_8px_rgba(249,115,22,0.35)] transition-[filter] duration-700 group-data-[lit=true]:drop-shadow-[0_0_16px_rgba(249,115,22,0.7)]" />
+        <MarsMoons />
       </div>
 
       {/* Starship-style ship (unrotated = nose up, engines down) */}

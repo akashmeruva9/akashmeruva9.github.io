@@ -2,6 +2,8 @@
 // fixed), so it scrolls away and fades out as you head down the road.
 // Star positions come from a seeded PRNG, so server and client render the same.
 
+import { CrescentMoon } from "@/components/space-objects";
+
 function mulberry32(seed: number) {
   return () => {
     seed |= 0;
@@ -94,6 +96,9 @@ export default function NightSky() {
           }}
         />
       ))}
+
+      {/* a faint crescent Moon, cropped by the right edge (md+ on tall screens) */}
+      <CrescentMoon />
 
       {SHOOTERS.map((s, i) => (
         <div

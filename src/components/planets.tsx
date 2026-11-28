@@ -7,7 +7,7 @@ import { useId } from "react";
 type P = { className?: string };
 
 // SVG ids must be unique per instance (planets render in more than one place).
-const useSvgId = () => useId().replace(/[^a-zA-Z0-9]/g, "");
+export const useSvgId = () => useId().replace(/[^a-zA-Z0-9]/g, "");
 
 export function Earth({ className }: P) {
   const u = useSvgId();
